@@ -1,4 +1,4 @@
-python swagtolm.py -f File
 # swagtolm
 
-adding extra more again
+Usage 
+python swagtolm.py -f petstore.json
