@@ -1,1 +1,2 @@
-python swagtolm.py
+python swagtolm.py -f File
+# swagtolm
