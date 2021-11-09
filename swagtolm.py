@@ -3,6 +3,21 @@
 # dictionary
 # Add support for Server URL to extract Domain Name and URL
 # importing the module
+#
+#       1. Add checks that sections exist e.g. loadmaster and Vs config. Exit Gracefully if not there
+#       2. Same for Parameters
+#       3. Move Regex section to Parameters with pattern keyword. If not there use generic if these use regex defined.
+#              "parameters": [
+#                  {
+#                      "name": "petId",
+#                      "in": "path",
+#                      "description": "ID of pet to update",
+#                      "required": true,
+#                      "type": "integer",
+#                      "format": "int64"
+#                      "pattern": '^\d{3}-\d{2}-\d{4}$'
+#                  },
+
 import json,re,requests,xmltodict,sys,getopt
 import logging as log
 
@@ -95,7 +110,7 @@ def main():
         controllerDict = extractUniqueControllerList(data)
 
         config = []
-        ###regexdict=data['components'][0]['regexpatterns']
+        regexdict=data['components'][0]['regexpatterns']
         ###log.info(type(data['components'][0]))
         for url in (data['paths']):
             for method in (data['paths'][url]):
@@ -109,32 +124,32 @@ def main():
                 result = re.findall('\{.*?\}', url)
                 if result:
                     log.info(str(result) + " Needs Replacement String")
-                    log.debug("Check for type in parameters")
-                    log.debug(data['paths'][url])
-                    log.debug(data['paths'][url][method]["parameters"][0])
-                    log.debug(data['paths'][url][method]["parameters"][0]["name"])
+                    #log.debug("Check for type in parameters")
+                    #log.debug(data['paths'][url])
+                    #log.debug(data['paths'][url][method]["parameters"][0])
+                    #log.debug(data['paths'][url][method]["parameters"][0]["name"])
                     for text in result:
-                        log.debug("check"+text)
-                        log.debug("check"+re.sub('[{}]', '', text))
-                        if (data['paths'][url][method]["parameters"][0]["name"] == re.sub('[{}]', '', text)):
-                            log.debug("local definition found")
-                            log.debug(data['paths'][url][method]["parameters"][0]["type"])
-                            if(data['paths'][url][method]["parameters"][0]["type"]=="integer"):
-                                log.debug("integer regex added")
-                                a = a.replace(text,"([0-9]+([.][0-9]*)?|[.][0-9]+)")
-                            elif(data['paths'][url][method]["parameters"][0]["type"]=="string"):
-                                log.debug("string regex added")
-                                a = a.replace(text, "REGEXFORSTRING")
-                            elif(data['paths'][url][method]["parameters"][0]["type"]=="boolean"):
-                                log.debug("string regex added")
-                                a = a.replace(text, "REGEXFORBOOL")
-                            continue
-                        ###for regex in regexdict:
-                        ###    log.debug("check if Regex found for "+text+" in "+regex['name'])
-                        ###    if regex['name'] == text.replace('{','').replace('}',''):
-                        ###        log.debug("Replacement is"+regex['regex'].replace('$','').replace('^',''))
-                        ###        a=a.replace(text,regex['regex'].replace('$','').replace('^',''))
-                        ###        break
+                    #     log.debug("check"+text)
+                    #     log.debug("check"+re.sub('[{}]', '', text))
+                    #     if (data['paths'][url][method]["parameters"][0]["name"] == re.sub('[{}]', '', text)):
+                    #         log.debug("local definition found")
+                    #         log.debug(data['paths'][url][method]["parameters"][0]["type"])
+                    #         if(data['paths'][url][method]["parameters"][0]["type"]=="integer"):
+                    #             log.debug("integer regex added")
+                    #             a = a.replace(text,"([0-9]+([.][0-9]*)?|[.][0-9]+)")
+                    #         elif(data['paths'][url][method]["parameters"][0]["type"]=="string"):
+                    #             log.debug("string regex added")
+                    #             a = a.replace(text, "REGEXFORSTRING")
+                    #         elif(data['paths'][url][method]["parameters"][0]["type"]=="boolean"):
+                    #             log.debug("string regex added")
+                    #             a = a.replace(text, "REGEXFORBOOL")
+                    #         continue
+                        for regex in regexdict:
+                            log.debug("check if Regex found for "+text+" in "+regex['name'])
+                            if regex['name'] == text.replace('{','').replace('}',''):
+                                log.debug("Replacement is"+regex['regex'].replace('$','').replace('^',''))
+                                a=a.replace(text,regex['regex'].replace('$','').replace('^',''))
+                                break
                 # End URL Mapping Section
                 dict['pattern']='/^'+re.sub('/','\/',a)+'$/'
                 log.debug("Pattern being added is"+str(dict['pattern']))
