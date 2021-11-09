@@ -1,0 +1,110 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PetstoreTest",
+    "description": "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters. For OAuth2 flow, you may use `user` as both username and password when asked to login.",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://ebanking.barglee.com/api"
+    }
+  ],
+  "loadmaster": {
+    "vsip": "10.1.151.221",
+    "vsport": "443",
+    "lmip": "lm60.barglee.com",
+    "user": "bal",
+    "pass": "2fourall",
+    "port": "443",
+    "realservers": [
+      "10.1.151.171",
+      "10.1.151.172"
+    ]
+  },
+  "tags": [
+    {
+      "name": "PetstoreAccount"
+    },
+    {
+      "name": "PetstoreApplication"
+    },
+    {
+      "name": "PetstoreDocuments"
+    }
+  ],
+  "paths": {
+    "/petstoreaccount/checkPassword": {
+        "POST": {
+            "tags": [
+                "PetstoreAccount"
+            ]
+        }
+    },
+    "/petstoreaccount/culture": {
+        "GET": {
+            "tags": [
+                "PetstoreAccount"
+            ]
+        }
+    },
+    "/petstoreaccount/culture/{cultureName}": {
+        "PUT": {
+            "tags": [
+                "PetstoreAccount"
+            ]
+        }
+    },
+    "/petstoreapp/config": {
+        "GET": {
+            "tags": [
+                "PetstoreApplication"
+            ]
+        }
+    },
+    "/petstoreapp/databaseStatus": {
+        "GET": {
+            "tags": [
+                "PetstoreApplication"
+            ]
+        }
+    },
+    "/petstoreapp/equalizerStatus": {
+        "GET": {
+            "tags": [
+                "PetstoreApplication"
+            ]
+        }
+    },
+    "/petstoreapp/lasStatus": {
+        "GET": {
+            "tags": [
+                "PetstoreApplication"
+            ]
+        }
+    },
+    "/petstoredocuments": {
+        "GET": {
+            "tags": [
+                "PetstoreDocuments"
+            ]
+        }
+    }
+  },
+  "components": [
+    {
+      "regexpatterns": [
+        {
+          "name": "cultureName",
+          "tag": "Accounts",
+          "regex": "^\\w{2,5}$"
+        }
+      ]
+    }
+  ]
+}
+
