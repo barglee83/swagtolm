@@ -14,18 +14,6 @@
       "url": "https://ebanking.barglee.com/api"
     }
   ],
-  "loadmaster": {
-    "vsip": "10.1.151.221",
-    "vsport": "443",
-    "lmip": "lm60.barglee.com",
-    "user": "bal",
-    "pass": "2fourall",
-    "port": "443",
-    "realservers": [
-      "10.1.151.171",
-      "10.1.151.172"
-    ]
-  },
   "tags": [
     {
       "name": "PetstoreAccount"
